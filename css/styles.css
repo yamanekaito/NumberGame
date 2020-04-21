@@ -1,0 +1,48 @@
+body {
+  background:#ccc;
+  color:#fff;
+  font-family:'Courier New',sans-serif;
+  font-size:16px;
+  font-weight:bold;
+}
+
+#container {
+  /*  */
+  width:120px;
+  margin:16px auto;
+}
+
+#board {
+  list-style:none;
+  margin:0 0 8px;     /* 上０　左右0　下8px */
+  padding:10px;
+  background-color:#fff;
+  border-radius:4px;
+  display:flex;
+  flex-wrap:wrap;         /* 要素からはみ出しそうになると折り返してくれる */
+}
+
+#board li {
+  background-color:#00aaff;
+  width:40px;
+  height:40px;
+  margin:5px;
+  cursor:pointer;
+  border-radius:4px;
+  line-height:40px;
+  text-align:center;
+  box-shadow:0 4px 0 #0088cc;     /* ぼかし０ */
+}
+
+#board li.pressed {        /* boardの子要素のliでpressedクラスをもったもの */
+  background-color:#ccc;
+  box-shadow:none;
+  margin-top:9px;        /* 5 + 4 */
+  margin-bottom:1px;     /* 5 -4 */
+}
+
+#timer {
+  margin-bottom:8px;
+  font-size:20px;
+  text-align:right;
+}
