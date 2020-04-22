@@ -1,10 +1,15 @@
 'use strict'
 {
   class Panel {
-    constructor() {
+    constructor(game) {
+      this.game = game;
       this.el = document.createElement('li');
       this.el.classList.add('pressed');
+      this.el.addEventListener('click', () => {
+        this.check();
+      });
     }
+
     getEl() {
       return this.el;
     }
@@ -13,15 +18,28 @@
       this.el.classList.remove('pressed');
       this.el.textContent = num;
     }
+
+    check() {
+      if (currentNum === parseInt(this.el.textContent,10)) {
+        //parseInt(文字列,10);  文字列を10進法で表示
+        this.el.classList.add('pressed');
+        currentNum ++ ;
+
+        if(currentNum === 4) {
+          clearTimeout(timeoutId);
+        }
+      }
+    }
   }
 
 
 
   class Board {
-    constructor() {
+    constructor(game) {
+      this.game = game;
       this.panels = [];
       for(let i = 0; i <4; i++) {
-        this.panels.push(new Panel())
+        this.panels.push(new Panel(this.game))
       }
       this.setup();
     }
@@ -51,11 +69,48 @@
 
 
 
-  const board = new Board();
+  
+  class Game {
+    constructor() {
+      
+      this.board = new Board(this);
 
-  const btn = document.getElementById('btn');
-  btn.addEventListener('click',() => {
-    board.activate();
-  });
+      this.currentNum = undefined;
+      this.startTime = undefined;
+      this.timeoutId = undefined; 
+
+      const btn = document.getElementById('btn');
+      btn.addEventListener('click',() => {
+        this.start();
+      });
+    }
+
+    start() {
+      if (typeof this.timeoutId !== 'undefined') {
+        clearTimeout(this.timeoutId);
+      }
+
+      this.currentNum = 0;
+      this.board.activate();
+      
+      this.startTime = Date.now();
+      this.runTimer();
+    }
+
+    runTimer() {     //メソッド
+      const timer = document.getElementById('timer');
+      timer.textContent = ((Date.now() - this.startTime)/1000).toFixed(2);
+      //小数点二桁で表示
+  
+      this.timeoutId = setTimeout(() => {
+        this.runTimer();
+      },10);
+    }
+  }
+
+  new Game();
+
+
+
   
 }
